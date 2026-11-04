@@ -51,3 +51,9 @@ python -m unittest discover -s tests -t .
 ```
 
 GitHub Actions runs these tests and a localhost smoke check on push and pull request. The workflow uses a dummy `ADMIN_PASSWORD` and `SECRET_KEY`.
+
+## Lab 10 - Monitoring Validation
+Validated Linux server monitoring and SSH connectivity during Lab 10.
+
+## Lab 10 - Monitoring Validation
+Validated Linux server monitoring and SSH connectivity during Lab 10.
