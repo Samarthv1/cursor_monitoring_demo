@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Add server — Server monitoring{% endblock %}
+
+{% block content %}
+  <section class="narrow">
+    <article class="card">
+      <h2>Add server</h2>
+      <p class="lede">Linux host reached by SSH from this machine. The page only reads metrics.</p>
+      {% if error %}
+        <p class="error" role="alert">{{ error }}</p>
+      {% endif %}
+      <form class="signin" method="post" action="{{ url_for('add_server') }}">
+        <label>
+          Display name
+          <input type="text" name="name" value="{{ form.name or '' }}" required>
+        </label>
+        <label>
+          Host
+          <input type="text" name="host" value="{{ form.host or '' }}" autocomplete="off" required>
+        </label>
+        <label>
+          SSH port
+          <input type="text" name="port" value="{{ form.port or '' }}" placeholder="22" inputmode="numeric">
+        </label>
+        <label>
+          SSH username
+          <input type="text" name="username" value="{{ form.username or '' }}" autocomplete="off" required>
+        </label>
+        <label>
+          Password
+          <input type="password" name="password" autocomplete="off">
+        </label>
+        <label>
+          Private key
+          <textarea name="private_key" rows="6" autocomplete="off" spellcheck="false"></textarea>
+        </label>
+        <p class="hint">Enter a password or a private key. The secret is stored in the local server file so the app can connect again.</p>
+        <div class="actions">
+          <button type="submit">Save</button>
+          <a class="ghost-link" href="{{ url_for('index') }}">Cancel</a>
+        </div>
+      </form>
+    </article>
+  </section>
+{% endblock %}

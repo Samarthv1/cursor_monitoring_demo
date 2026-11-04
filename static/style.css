@@ -152,6 +152,144 @@ input:disabled {
   font-size: 1.05rem;
 }
 
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.narrow {
+  max-width: 28rem;
+}
+
+.wide,
+.page-head {
+  max-width: 72rem;
+}
+
+.page-head {
+  margin-bottom: 1rem;
+}
+
+.back {
+  margin: 0 0 0.8rem;
+}
+
+a {
+  color: var(--accent);
+}
+
+.error {
+  margin: 1rem 0 0;
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.6rem;
+  background: #fdecec;
+  color: #8d2b2b;
+}
+
+a.button,
+button.ghost,
+.ghost-link {
+  display: inline-block;
+  text-decoration: none;
+}
+
+a.button {
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.6rem;
+  background: var(--accent);
+  color: white;
+}
+
+button.ghost,
+.ghost-link {
+  padding: 0.55rem 0.8rem;
+  border-radius: 0.6rem;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: #f8fafb;
+  font: inherit;
+}
+
+table {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.55rem 0.35rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.status {
+  font-weight: 650;
+}
+
+.status-up {
+  color: var(--accent);
+}
+
+.status-unreachable {
+  color: #8d2b2b;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 72rem;
+}
+
+.figure {
+  margin: 0.8rem 0 0;
+  font-size: 1.8rem;
+  letter-spacing: -0.03em;
+}
+
+.stats {
+  display: grid;
+  gap: 0.35rem;
+  margin: 1rem 0 0;
+}
+
+.stats div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.stats dt,
+.stats dd {
+  margin: 0;
+}
+
+.ports {
+  margin-top: 1rem;
+}
+
+.ports h3 {
+  margin: 1.2rem 0 0;
+  font-size: 1rem;
+}
+
 @media (max-width: 720px) {
   .topbar,
   .grid {
@@ -163,7 +301,16 @@ input:disabled {
     margin-top: 0.8rem;
   }
 
-  .card + .card {
+  .card + .card,
+  .metrics {
     margin-top: 1rem;
+  }
+
+  .metrics {
+    display: block;
+  }
+
+  .top-actions {
+    margin-top: 0.8rem;
   }
 }

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Sign in — Server monitoring{% endblock %}
+
+{% block content %}
+  <section class="narrow">
+    <article class="card">
+      <h2>Sign in</h2>
+      <p class="lede">Shared admin account for L1, L2, and L3.</p>
+      {% if error %}
+        <p class="error" role="alert">{{ error }}</p>
+      {% endif %}
+      <form class="signin" method="post" action="{{ url_for('login_submit') }}">
+        <label>
+          Username
+          <input type="text" name="username" value="admin" autocomplete="username" required>
+        </label>
+        <label>
+          Password
+          <input type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit">Sign in</button>
+      </form>
+    </article>
+  </section>
+{% endblock %}

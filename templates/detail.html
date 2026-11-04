@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}{{ server.name }} — Server monitoring{% endblock %}
+
+{% block head %}
+  <meta http-equiv="refresh" content="10">
+{% endblock %}
+
+{% block content %}
+  <p class="back"><a href="{{ url_for('index') }}">Servers</a></p>
+  <div class="card-head page-head">
+    <div>
+      <h2>{{ server.name }}</h2>
+      <p class="lede">{{ server.host }}:{{ server.port }} · Updates about every 10 seconds.</p>
+    </div>
+    <p class="status status-{{ server.status }}">
+      {% if server.status == "up" %}Up{% else %}Unreachable{% endif %}
+    </p>
+  </div>
+  {% if not report.reachable %}
+    <p class="error" role="alert">{{ report.reason or "The host could not be reached." }}</p>
+  {% endif %}
+
+  <section class="metrics">
+    <article class="card">
+      <h2>CPU</h2>
+      {% if report.cpu %}
+        <p class="figure">{% if report.cpu.percent %}{{ report.cpu.percent }}{% else %}Unavailable{% endif %}</p>
+        <p class="hint">Overall CPU</p>
+        <dl class="stats">
+          <div><dt>1 minute</dt><dd>{% if report.cpu.load1 %}{{ report.cpu.load1 }}{% else %}Unavailable{% endif %}</dd></div>
+          <div><dt>5 minute</dt><dd>{% if report.cpu.load5 %}{{ report.cpu.load5 }}{% else %}Unavailable{% endif %}</dd></div>
+          <div><dt>15 minute</dt><dd>{% if report.cpu.load15 %}{{ report.cpu.load15 }}{% else %}Unavailable{% endif %}</dd></div>
+        </dl>
+      {% else %}
+        <p>Unavailable</p>
+      {% endif %}
+    </article>
+
+    <article class="card">
+      <h2>Memory</h2>
+      {% if report.memory %}
+        <p class="figure">{{ report.memory.percent }}</p>
+        <p class="hint">Used</p>
+        <dl class="stats">
+          <div><dt>Used</dt><dd>{{ report.memory.used }}</dd></div>
+          <div><dt>Free</dt><dd>{{ report.memory.free }}</dd></div>
+          <div><dt>Total</dt><dd>{{ report.memory.total }}</dd></div>
+        </dl>
+      {% else %}
+        <p>Unavailable</p>
+      {% endif %}
+    </article>
+
+    <article class="card">
+      <h2>Network</h2>
+      {% if report.network %}
+        <table>
+          <thead>
+            <tr><th>Interface</th><th>In</th><th>Out</th></tr>
+          </thead>
+          <tbody>
+            {% for row in report.network %}
+              <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.inbound }}</td>
+                <td>{{ row.outbound }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p class="hint">Rates use the previous sample, about 10 seconds earlier.</p>
+      {% else %}
+        <p>Unavailable</p>
+      {% endif %}
+    </article>
+  </section>
+
+  <section class="card wide ports">
+    <h2>Ports</h2>
+    {% if report.listening is not none %}
+      <h3>Listening</h3>
+      <table>
+        <thead>
+          <tr><th>Protocol</th><th>Port</th><th>Process</th></tr>
+        </thead>
+        <tbody>
+          {% for row in report.listening %}
+            <tr>
+              <td>{{ row.protocol }}</td>
+              <td>{{ row.port }}</td>
+              <td>{{ row.process }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Listening ports unavailable</p>
+    {% endif %}
+
+    {% if report.connections is not none %}
+      <h3>Active connections</h3>
+      <table>
+        <thead>
+          <tr><th>Local</th><th>Remote</th><th>State</th></tr>
+        </thead>
+        <tbody>
+          {% for row in report.connections %}
+            <tr>
+              <td>{{ row.local }}</td>
+              <td>{{ row.remote }}</td>
+              <td>{{ row.state }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p class="hint">At most 100 active connections are shown.</p>
+    {% else %}
+      <p>Active connections unavailable</p>
+    {% endif %}
+  </section>
+{% endblock %}

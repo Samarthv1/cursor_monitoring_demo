@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Servers — Server monitoring{% endblock %}
+
+{% block content %}
+  <section class="card wide">
+    <div class="card-head">
+      <h2>Servers</h2>
+      <a class="button" href="{{ url_for('add_server') }}">Add server</a>
+    </div>
+    {% if load_error %}
+      <p class="error" role="alert">{{ load_error }}</p>
+    {% endif %}
+    {% if servers %}
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Host</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for server in servers %}
+            <tr>
+              <td><a href="{{ url_for('server_detail', server_id=server.id) }}">{{ server.name }}</a></td>
+              <td>{{ server.host }}:{{ server.port }}</td>
+              <td>
+                <span class="status status-{{ server.status }}">
+                  {% if server.status == "up" %}Up{% elif server.status == "unreachable" %}Unreachable{% else %}Unknown{% endif %}
+                </span>
+                {% if server.status_reason %}
+                  <span class="hint">{{ server.status_reason }}</span>
+                {% endif %}
+              </td>
+              <td>
+                <form method="post" action="{{ url_for('remove_server', server_id=server.id) }}">
+                  <button type="submit" class="ghost">Remove</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="empty">
+        <p>No servers yet.</p>
+        <p class="hint"><a href="{{ url_for('add_server') }}">Add server</a></p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

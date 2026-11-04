@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Server monitoring{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  {% block head %}{% endblock %}
 </head>
 <body>
   <header class="topbar">
@@ -15,7 +16,14 @@
         <h1>Server monitoring</h1>
       </div>
     </div>
-    <p class="mode">Read only</p>
+    <div class="top-actions">
+      <p class="mode">Read only</p>
+      {% if signed_in %}
+        <form method="post" action="{{ url_for('logout') }}">
+          <button type="submit" class="ghost">Sign out</button>
+        </form>
+      {% endif %}
+    </div>
   </header>
   <main class="page">
     {% block content %}{% endblock %}
